@@ -20,12 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->widget_1->xAxis->setRange(1, 30);
     ui->widget_1->yAxis->setRange(0, 100);
 
-    ui->widget_2->addGraph();
-    ui->widget_2->xAxis->setLabel("time(in seconds)");
-    ui->widget_2->yAxis->setLabel("bandwith(in mb)");
-    ui->widget_2->xAxis->setRange(1, 30);
-    ui->widget_2->yAxis->setRange(0, 100);
-
     char *szIPaddr;
     char *szPort = "8728"; // default port string
     int iPort=8728;             // default port int
