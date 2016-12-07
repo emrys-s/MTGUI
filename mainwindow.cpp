@@ -1,5 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "configuration.h"
+#include <mikrotik-api.h>
+#include <unistd.h> //for sleep
+#include<sys/types.h>
+#include<sys/socket.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<string.h>
+#include<stdlib.h>
+
+#define SECONDS 30
+#define BANDWITH 100
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -9,38 +21,78 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createActions();
     createMenus();
+//In future we will use class to configure these parameters
+//    connectionData curConfData;
 
-    QVector<double> x(101), y(101); // initialize with entries 0..100
+    char *szIPaddr = (char*)"172.20.17.200";
+    int iPort=8728;
+    char *szUsername = (char*)"admin";
+    char *szPassword = (char*)"";
+    struct Sentence stSentence;
+    struct Block stBlock;
+    QVector<double> x(SECONDS+1), y(SECONDS+1), z(SECONDS+1);
 
-    int n = 10;
+//    int fdSock = ::apiConnect(szIPaddr, iPort);
+//    int iLoginResult = ::login(fdSock, szUsername, szPassword);
+
+//    if (!iLoginResult)
+//    {
+//         ::apiDisconnect(fdSock);
+//         printf("Invalid username or password.\n");
+//    }
+
+    for (int i=0; i<=SECONDS; ++i)
+    {
+//        ::addWordToSentence(&stSentence, (char*)"/interface/monitor-traffic");
+//        ::addWordToSentence(&stSentence, (char*)"=once=");
+//        ::addWordToSentence(&stSentence, (char*)"=interface=ether1");
+//        ::addWordToSentence(&stSentence, (char*)"\0");
+//               // write sentence to the API
+//        if (stSentence.iLength > 0)
+//        {
+//            writeSentence(fdSock, &stSentence);
+
+//            // receive and print response block from the API
+//            stBlock = readBlock(fdSock);
+
+//            for (int i = 0; i < stBlock.iLength; i++)
+//            {
+//                 for (int j = 0; j < stBlock.stSentence[i]->iLength; j++)
+//                 {
+//                      if (!strncmp(stBlock.stSentence[i]->szSentence[j],"=tx-bits-per-second",19))
+//                      //    printf("\r%s", stBlock.stSentence[i]->szSentence[j]+20);
+//                        y[i] = atof(stBlock.stSentence[i]->szSentence[j]+20);
+//                      else if (!strncmp(stBlock.stSentence[i]->szSentence[j],"=rx-bits-per-second",19))
+// //                          printf("\t\t\t%s", stBlock.stSentence[i]->szSentence[j]+20);
+//                        z[i] = atof(stBlock.stSentence[i]->szSentence[j]+20);
+//                  }
+//             }
+//             clearSentence(&stSentence);
+//         }
+
+//         sleep(1);
+         x[i] = i;
+                    y[i] = 80 + rand()%20;
+                    z[i] = 80 + rand()%20;
+    }
 
     ui->widget_1->addGraph();
     ui->widget_1->xAxis->setLabel("time(in seconds)");
     ui->widget_1->yAxis->setLabel("bandwith(in mb)");
-    ui->widget_1->xAxis->setRange(1, 30);
-    ui->widget_1->yAxis->setRange(0, 100);
-
-    char *szIPaddr;
-    char *szPort = "8728"; // default port string
-    int iPort=8728;             // default port int
-    char *szUsername = "admin";  // default username
-    char *szPassword = "";       // default password
-
-    for (int i=0; i<101; ++i)
-    {
-              x[i] = i; // x goes from -1 to 1
-              y[i] = x[i]*x[i]; // let's plot a quadratic function
-    }
-    // create graph and assign data to it:
-
+    ui->widget_1->xAxis->setRange(0, SECONDS);
+    ui->widget_1->yAxis->setRange(0, BANDWITH);
     ui->widget_1->graph(0)->setData(x, y);
-
-    // give the axes some labels:
-    // set axes ranges, so we see all data:
 
     ui->widget_1->replot();
 
-      //  sleep(10);
+    ui->widget_2->addGraph();
+    ui->widget_2->xAxis->setLabel("time(in seconds)");
+    ui->widget_2->yAxis->setLabel("bandwith(in mb)");
+    ui->widget_2->xAxis->setRange(0, SECONDS);
+    ui->widget_2->yAxis->setRange(0, BANDWITH);
+    ui->widget_2->graph(0)->setData(x, z);
+
+    ui->widget_1->replot();
 
 }
 
