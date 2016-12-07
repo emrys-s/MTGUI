@@ -26,7 +26,6 @@ private slots:
     void exportConfig();
     void editConDet();
     void about();
-//    void aboutQt();
 
 private:
     void createActions();

@@ -16,11 +16,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     qcustomplot.cpp \
     md5.c \
-    mikrotik-api.c
+    mikrotik-api.c \
+    configuration.cpp
 
 HEADERS  += mainwindow.h \
     qcustomplot.h \
     md5.h \
-    mikrotik-api.h
+    mikrotik-api.h \
+    configuration.h
 
 FORMS    += mainwindow.ui

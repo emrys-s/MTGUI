@@ -6,7 +6,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-  //  ui->widget_1
 
     createActions();
     createMenus();
@@ -16,16 +15,16 @@ MainWindow::MainWindow(QWidget *parent) :
     int n = 10;
 
     ui->widget_1->addGraph();
-    ui->widget_1->xAxis->setLabel("time");
-    ui->widget_1->yAxis->setLabel("bandwith");
+    ui->widget_1->xAxis->setLabel("time(in seconds)");
+    ui->widget_1->yAxis->setLabel("bandwith(in mb)");
     ui->widget_1->xAxis->setRange(1, 30);
-    ui->widget_1->yAxis->setRange(0, 1000);
+    ui->widget_1->yAxis->setRange(0, 100);
 
     ui->widget_2->addGraph();
-    ui->widget_2->xAxis->setLabel("time");
-    ui->widget_2->yAxis->setLabel("bandwith");
+    ui->widget_2->xAxis->setLabel("time(in seconds)");
+    ui->widget_2->yAxis->setLabel("bandwith(in mb)");
     ui->widget_2->xAxis->setRange(1, 30);
-    ui->widget_2->yAxis->setRange(0, 1000);
+    ui->widget_2->yAxis->setRange(0, 100);
 
     char *szIPaddr;
     char *szPort = "8728"; // default port string
@@ -35,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     for (int i=0; i<101; ++i)
     {
-              x[i] = i+n; // x goes from -1 to 1
+              x[i] = i; // x goes from -1 to 1
               y[i] = x[i]*x[i]; // let's plot a quadratic function
     }
     // create graph and assign data to it:
@@ -47,9 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->widget_1->replot();
 
-
       //  sleep(10);
-
 
 }
 
@@ -78,47 +75,6 @@ void MainWindow::editConDet()
     infoLabel->setText(tr("Invoked <b>File|Print</b>"));
 }
 
-/*
-void MainWindow::bold()
-{
-    infoLabel->setText(tr("Invoked <b>Edit|Format|Bold</b>"));
-}
-
-void MainWindow::italic()
-{
-    infoLabel->setText(tr("Invoked <b>Edit|Format|Italic</b>"));
-}
-
-void MainWindow::leftAlign()
-{
-    infoLabel->setText(tr("Invoked <b>Edit|Format|Left Align</b>"));
-}
-
-void MainWindow::rightAlign()
-{
-    infoLabel->setText(tr("Invoked <b>Edit|Format|Right Align</b>"));
-}
-
-void MainWindow::justify()
-{
-    infoLabel->setText(tr("Invoked <b>Edit|Format|Justify</b>"));
-}
-
-void MainWindow::center()
-{
-    infoLabel->setText(tr("Invoked <b>Edit|Format|Center</b>"));
-}
-
-void MainWindow::setLineSpacing()
-{
-    infoLabel->setText(tr("Invoked <b>Edit|Format|Set Line Spacing</b>"));
-}
-
-void MainWindow::setParagraphSpacing()
-{
-    infoLabel->setText(tr("Invoked <b>Edit|Format|Set Paragraph Spacing</b>"));
-}
-*/
 void MainWindow::about()
 {
     infoLabel->setText(tr("Invoked <b>Help|About</b>"));
@@ -126,12 +82,6 @@ void MainWindow::about()
             tr("This program used to monitor and control MT devices "));
 }
 
-/*
-void MainWindow::aboutQt()
-{
-    infoLabel->setText(tr("Invoked <b>Help|About Qt</b>"));
-}
-*/
 void MainWindow::createActions()
 {
     connectAct = new QAction(tr("&Connect to router"), this);
