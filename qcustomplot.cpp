@@ -24,7 +24,7 @@
 ****************************************************************************/
 
 #include "qcustomplot.h"
-#include <QPrinter>
+//#include <QtPrintSupport/QPrinter>
 
 /* including file 'src/vector2d.cpp', size 7340                              */
 /* commit 633339dadc92cb10c58ef3556b55570685fafb99 2016-09-13 23:54:56 +0200 */
