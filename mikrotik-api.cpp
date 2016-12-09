@@ -46,12 +46,17 @@
 #include "md5.h"
 #include "mikrotik-api.h"
 
-
-
 /********************************************************************
  * Connect to API
  * Returns a socket descriptor
  ********************************************************************/
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+int iLittleEndian;
+
 int apiConnect(char *szIPaddr, int iPort)
 {
     int fdSock;
@@ -127,7 +132,7 @@ int login(int fdSock, char *username, char *password)
     writeWord(fdSock, "");
 
     stReadSentence = readSentence(fdSock);
-    DEBUG ? printSentence (&stReadSentence) : 0;
+//    DEBUG ? printSentence (&stReadSentence) : 0;
 
     if (stReadSentence.iReturnValue != DONE)
     {
@@ -146,7 +151,7 @@ int login(int fdSock, char *username, char *password)
 
     // get md5 of the password + challenge concatenation
     md5_init(&state);
-    md5_append(&state, cNull, 1);
+    md5_append(&state, (const md5_byte_t *)cNull, 1);
     md5_append(&state, (const md5_byte_t *)password, strlen(password));
     md5_append(&state, (const md5_byte_t *)szMD5ChallengeBinary, strlen(szMD5ChallengeBinary));
     md5_finish(&state, digest);
@@ -169,12 +174,12 @@ int login(int fdSock, char *username, char *password)
     addWordToSentence(&stWriteSentence, "=response=00");
     addPartWordToSentence(&stWriteSentence, szMD5PasswordToSend);
 
-    DEBUG ? printSentence(&stWriteSentence) : 0;
+  //  DEBUG ? printSentence(&stWriteSentence) : 0;
     writeSentence(fdSock, &stWriteSentence);
 
 
     stReadSentence = readSentence(fdSock);
-    DEBUG ? printSentence (&stReadSentence) : 0;
+    //DEBUG ? printSentence (&stReadSentence) : 0;
 
     if (stReadSentence.iReturnValue == DONE)
     {
@@ -198,8 +203,8 @@ void writeLen(int fdSock, int iLen)
     char *cEncodedLength;  // encoded length to send to the api socket
     char *cLength;         // exactly what is in memory at &iLen integer
 
-    cLength = calloc(sizeof(int), 1);
-    cEncodedLength = calloc(sizeof(int), 1);
+    cLength = (char*)calloc(sizeof(int), 1);
+    cEncodedLength = (char*)calloc(sizeof(int), 1);
 
     // set cLength address to be same as iLen
     cLength = (char *)&iLen;
@@ -311,7 +316,7 @@ void writeSentence(int fdSock, struct Sentence *stWriteSentence)
     }
 
     DEBUG ? printf("Writing sentence\n"): 0;
-    DEBUG ? printSentence(stWriteSentence) : 0;
+  //  DEBUG ? printSentence(stWriteSentence) : 0;
 
     for (iIndex=0; iIndex<stWriteSentence->iLength; iIndex++)
     {
@@ -338,7 +343,7 @@ int readLen(int fdSock)
     char *cLength;   // length of next message to read...will be cast to int at the end
     int *iLen;       // calculated length of next message (Cast to int)
 
-    cLength = calloc(sizeof(int), 1);
+    cLength = (char*)calloc(sizeof(int), 1);
 
     DEBUG ? printf("start readLen()\n") : 0;
 
@@ -420,7 +425,7 @@ int readLen(int fdSock)
     else
     {
         DEBUG ? printf("1-byte encoded length\n") : 0;
-        iLen = malloc(sizeof(int));
+        iLen = (int*)malloc(sizeof(int));
         *iLen = (int)cFirstChar;
     }
 
@@ -449,8 +454,8 @@ char *readWord(int fdSock)
     if (iLen > 0)
     {
         // allocate memory for strings
-        szRetWord = calloc(sizeof(char), iLen + 1);
-        szTmpWord = calloc(sizeof(char), 1024 + 1);
+        szRetWord = (char*)calloc(sizeof(char), iLen + 1);
+        szTmpWord = (char*)calloc(sizeof(char), 1024 + 1);
 
         while (iLen != 0)
         {
@@ -632,16 +637,16 @@ void addSentenceToBlock(struct Block *stBlock, struct Sentence *stSentence)
     // allocate mem for the new Sentence position
     if (stBlock->iLength == 0)
     {
-        stBlock->stSentence = malloc(1 * sizeof stBlock->stSentence);
+        stBlock->stSentence = (Sentence**)malloc(1 * sizeof stBlock->stSentence);
     }
     else
     {
-        stBlock->stSentence = realloc(stBlock->stSentence, iNewLength * sizeof stBlock->stSentence + 1);
+        stBlock->stSentence = (Sentence**)realloc(stBlock->stSentence, iNewLength * sizeof stBlock->stSentence + 1);
     }
 
 
     // allocate mem for the full sentence struct
-    stBlock->stSentence[stBlock->iLength] = malloc(sizeof *stSentence);
+    stBlock->stSentence[stBlock->iLength] = (Sentence*)malloc(sizeof *stSentence);
 
     // copy actual sentence struct to the block position
     memcpy(stBlock->stSentence[stBlock->iLength], stSentence, sizeof *stSentence);
@@ -691,16 +696,16 @@ void addWordToSentence(struct Sentence *stSentence, char *szWordToAdd)
     // allocate mem for the new word position
     if (stSentence->iLength == 0)
     {
-        stSentence->szSentence = malloc(1 * sizeof stSentence->szSentence);
+        stSentence->szSentence = (char**)malloc(1 * sizeof stSentence->szSentence);
     }
     else
     {
-        stSentence->szSentence = realloc(stSentence->szSentence, iNewLength * sizeof stSentence->szSentence + 1);
+        stSentence->szSentence = (char**)realloc(stSentence->szSentence, iNewLength * sizeof stSentence->szSentence + 1);
     }
 
 
     // allocate mem for the full word string
-    stSentence->szSentence[stSentence->iLength] = malloc(strlen(szWordToAdd) + 1);
+    stSentence->szSentence[stSentence->iLength] = (char*)malloc(strlen(szWordToAdd) + 1);
 
     // copy word string to the sentence
     strcpy(stSentence->szSentence[stSentence->iLength], szWordToAdd);
@@ -721,7 +726,7 @@ void addPartWordToSentence(struct Sentence *stSentence, char *szWordToAdd)
     iIndex = stSentence->iLength - 1;
 
     // reallocate memory for the new partial word
-    stSentence->szSentence[iIndex] = realloc(stSentence->szSentence[iIndex], strlen(stSentence->szSentence[iIndex]) + strlen(szWordToAdd) + 1);
+    stSentence->szSentence[iIndex] = (char*)realloc(stSentence->szSentence[iIndex], strlen(stSentence->szSentence[iIndex]) + strlen(szWordToAdd) + 1);
 
     // concatenate the partial word to the existing sentence
     strcat (stSentence->szSentence[iIndex], szWordToAdd);
@@ -763,7 +768,7 @@ char *md5ToBinary(char *szHex)
     char *szReturn;
 
     // allocate 16 + 1 bytes for our return string
-    szReturn = malloc((16 + 1) * sizeof *szReturn);
+    szReturn = (char*)malloc((16 + 1) * sizeof *szReturn);
 
     // 32 bytes in szHex?
     if (strlen(szHex) != 32)
@@ -797,7 +802,7 @@ char *md5DigestToHexString(md5_byte_t *binaryDigest)
     char *szReturn;
 
     // allocate 32 + 1 bytes for our return string
-    szReturn = malloc((32 + 1) * sizeof *szReturn);
+    szReturn = (char*)malloc((32 + 1) * sizeof *szReturn);
 
 
     for (di = 0; di < 16; ++di)
@@ -893,6 +898,7 @@ char hexStringToChar(char *cToConvert)
  * Test whether or not this system is little endian at RUNTIME
  * Courtesy: http://download.osgeo.org/grass/grass6_progman/endian_8c_source.html
  ********************************************************************/
+
 int isLittleEndian(void)
 {
     union
@@ -908,3 +914,7 @@ int isLittleEndian(void)
 
     return 0;                   /* false: big endian */
 }
+
+#ifdef __cplusplus
+}  /* end extern "C" */
+#endif

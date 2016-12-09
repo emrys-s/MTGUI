@@ -8,6 +8,11 @@
 #define TRAP 2
 #define FATAL 3
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 struct Sentence {
     char **szSentence;    // array of strings representing individual words
     int iLength;          // length of szSentence (number of array elements)
@@ -20,7 +25,9 @@ struct Block {
 };
 
 // endianness variable...global
-int iLittleEndian;
+//int iLittleEndian;
+extern int iLittleEndian;
+
 
 // API specific functions
 int apiConnect(char *, int);
@@ -53,4 +60,10 @@ char hexStringToChar(char *);
 
 // Endian tests
 int isLittleEndian(void);
+
+#ifdef __cplusplus
+}  /* end extern "C" */
+#endif
+
 #endif // MIKROTIKAPI_H
+

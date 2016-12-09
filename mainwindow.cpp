@@ -10,7 +10,8 @@
 #include<string.h>
 #include<stdlib.h>
 
-#define SECONDS 30
+#define SECONDS 60
+//#define BANDWITH 10000
 #define BANDWITH 100
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -32,26 +33,25 @@ MainWindow::MainWindow(QWidget *parent) :
     struct Block stBlock;
     QVector<double> x(SECONDS+1), y(SECONDS+1), z(SECONDS+1);
 
-//    int fdSock = ::apiConnect(szIPaddr, iPort);
-//    int iLoginResult = ::login(fdSock, szUsername, szPassword);
+    int fdSock = ::apiConnect(szIPaddr, iPort);
+    int iLoginResult = ::login(fdSock, szUsername, szPassword);
 
-//    if (!iLoginResult)
-//    {
-//         ::apiDisconnect(fdSock);
-//         printf("Invalid username or password.\n");
-//    }
+    if (!iLoginResult)
+    {
+         ::apiDisconnect(fdSock);
+         printf("Invalid username or password.\n");
+    }
 
-    for (int i=0; i<=SECONDS; ++i)
+    for (int k=0; k<=SECONDS; k++)
     {
 //        ::addWordToSentence(&stSentence, (char*)"/interface/monitor-traffic");
 //        ::addWordToSentence(&stSentence, (char*)"=once=");
 //        ::addWordToSentence(&stSentence, (char*)"=interface=ether1");
 //        ::addWordToSentence(&stSentence, (char*)"\0");
-//               // write sentence to the API
+               // write sentence to the API
 //        if (stSentence.iLength > 0)
 //        {
 //            writeSentence(fdSock, &stSentence);
-
 //            // receive and print response block from the API
 //            stBlock = readBlock(fdSock);
 
@@ -60,20 +60,18 @@ MainWindow::MainWindow(QWidget *parent) :
 //                 for (int j = 0; j < stBlock.stSentence[i]->iLength; j++)
 //                 {
 //                      if (!strncmp(stBlock.stSentence[i]->szSentence[j],"=tx-bits-per-second",19))
-//                      //    printf("\r%s", stBlock.stSentence[i]->szSentence[j]+20);
-//                        y[i] = atof(stBlock.stSentence[i]->szSentence[j]+20);
+//                        y[k] = atof(stBlock.stSentence[i]->szSentence[j]+20);
 //                      else if (!strncmp(stBlock.stSentence[i]->szSentence[j],"=rx-bits-per-second",19))
-// //                          printf("\t\t\t%s", stBlock.stSentence[i]->szSentence[j]+20);
-//                        z[i] = atof(stBlock.stSentence[i]->szSentence[j]+20);
+//                        z[k] = atof(stBlock.stSentence[i]->szSentence[j]+20);
 //                  }
 //             }
 //             clearSentence(&stSentence);
 //         }
 
 //         sleep(1);
-         x[i] = i;
-                    y[i] = 80 + rand()%20;
-                    z[i] = 80 + rand()%20;
+         x[k] = k;
+         y[k] = 60 + rand()%40;
+         z[k] = 60 + rand()%40;
     }
 
     ui->widget_1->addGraph();

@@ -16,8 +16,8 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     qcustomplot.cpp \
     md5.c \
-    mikrotik-api.c \
-    configuration.cpp
+    configuration.cpp \
+    mikrotik-api.cpp
 
 HEADERS  += mainwindow.h \
     qcustomplot.h \
