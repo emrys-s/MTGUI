@@ -1,0 +1,4 @@
+Force to work that C Mikrotik function
+Fill connectionData class with parameters
+Add another window to edit parameters form GUI
+
