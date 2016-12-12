@@ -23,6 +23,7 @@ HEADERS  += mainwindow.h \
     qcustomplot.h \
     md5.h \
     mikrotik-api.h \
-    configuration.h
+    configuration.h \
+    database.h
 
 FORMS    += mainwindow.ui

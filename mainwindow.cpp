@@ -8,6 +8,7 @@
 #include<netinet/in.h>
 #include<arpa/inet.h>
 #include<string.h>
+#include<string>
 #include<stdlib.h>
 
 #define SECONDS 5
@@ -25,12 +26,15 @@ MainWindow::MainWindow(QWidget *parent) :
 //In future we will use class to configure these parameters
 //    connectionData curConfData;
 
-    char *szIPaddr = (char*)"94.45.71.39";
+ //   std::string szIPaddr = "94.45.71.39";
+//    char *szIPaddr = (char*)"94.45.71.39";
+    char szIPaddr[] = {'9','4','.','4','5','.','7','1','.','3','9','\0'};
     int iPort=8728;
 //    char *szUsername = (char*)"nazar";
-    char szUsername[10] = {'n','a','z','a','r','2','\0'};
+    char szUsername[] = {'n','a','z','a','r','2','\0'};
 
-    char szPassword[1] = {'\0'};
+//    char* szPassword = "";
+    char szPassword[] = {'\0'};
 //    char *szPassword = (char*)"ostware";
 //    char szPassword[10] = {'o','s','t','w','a','r','e','\0'};
 
@@ -41,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     struct Block stBlock;
     QVector<double> x(SECONDS+1), y(SECONDS+1), z(SECONDS+1);
 
+ //   int fdSock = ::apiConnect(szIPaddr.c_str(), iPort);
     int fdSock = ::apiConnect(szIPaddr, iPort);
     int iLoginResult = ::login(fdSock, szUsername, szPassword);
 
