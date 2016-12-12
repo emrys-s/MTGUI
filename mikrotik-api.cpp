@@ -71,7 +71,7 @@ int apiConnect(char *szIPaddr, int iPort)
     address.sin_port = htons(iPort);
     iLen = sizeof(address);
 
-    DEBUG ? printf("Connecting to %s\n", szIPaddr) : 0;
+//    DEBUG ? printf("Connecting to %s\n", szIPaddr) : 0;
 
     iConnectResult = connect(fdSock, (struct sockaddr *)&address, iLen);
 
@@ -126,7 +126,6 @@ int login(int fdSock, char *username, char *password)
     md5_state_t state;
     md5_byte_t digest[16];
     char cNull[1] = {0};
-
 
     writeWord(fdSock, "/login");
     writeWord(fdSock, "");

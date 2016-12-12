@@ -28,14 +28,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
  //   std::string szIPaddr = "94.45.71.39";
 //    char *szIPaddr = (char*)"94.45.71.39";
-    char szIPaddr[] = {'9','4','.','4','5','.','7','1','.','3','9','\0'};
+    char szIPaddr[] = {'9','4','.','4','5','.','7','1','.','3','9','\0','\0'};
     int iPort=8728;
-//    char *szUsername = (char*)"nazar";
-    char szUsername[] = {'n','a','z','a','r','2','\0'};
+    char *szUsername = (char*)"nazar";
+//    char szUsername[] = {'n','a','z','a','r','2','\0'};
 
 //    char* szPassword = "";
-    char szPassword[] = {'\0'};
-//    char *szPassword = (char*)"ostware";
+//    char szPassword[] = {'\0'};
+    char *szPassword = (char*)"ostware";
 //    char szPassword[10] = {'o','s','t','w','a','r','e','\0'};
 
  //   char cWordInput[256];
@@ -57,32 +57,32 @@ MainWindow::MainWindow(QWidget *parent) :
     else
     for (int k=0; k<=SECONDS; k++)
     {
-//        ::addWordToSentence(&stSentence, (char*)"/interface/monitor-traffic");
-//        ::addWordToSentence(&stSentence, (char*)"=once=");
-//        ::addWordToSentence(&stSentence, (char*)"=interface=ether1");
-//        ::addWordToSentence(&stSentence, (char*)"\0");
-//               // write sentence to the API
-//        if (stSentence.iLength > 0)
-//        {
-//            writeSentence(fdSock, &stSentence);
+        ::addWordToSentence(&stSentence, (char*)"/interface/monitor-traffic");
+        ::addWordToSentence(&stSentence, (char*)"=once=");
+        ::addWordToSentence(&stSentence, (char*)"=interface=ether1");
+        ::addWordToSentence(&stSentence, (char*)"\0");
+               // write sentence to the API
+        if (stSentence.iLength > 0)
+        {
+            writeSentence(fdSock, &stSentence);
 ////            // receive and print response block from the API
-//            stBlock = readBlock(fdSock);
+            stBlock = readBlock(fdSock);
 
-//            for (int i = 0; i < stBlock.iLength; i++)
-//            {
-//                 for (int j = 0; j < stBlock.stSentence[i]->iLength; j++)
-//                 {
-//                      if (!strncmp(stBlock.stSentence[i]->szSentence[j],"=tx-bits-per-second",19))
-//                      {
-//                          printf("\n%s",stBlock.stSentence[i]->szSentence[j]+20);
-//                          y[k] = atof(stBlock.stSentence[i]->szSentence[j]+20);
-//                      }
-//                      else if (!strncmp(stBlock.stSentence[i]->szSentence[j],"=rx-bits-per-second",19))
-//                        z[k] = atof(stBlock.stSentence[i]->szSentence[j]+20);
-//                  }
-//             }
-//             clearSentence(&stSentence);
-//        }
+            for (int i = 0; i < stBlock.iLength; i++)
+            {
+                 for (int j = 0; j < stBlock.stSentence[i]->iLength; j++)
+                 {
+                      if (!strncmp(stBlock.stSentence[i]->szSentence[j],"=tx-bits-per-second",19))
+                      {
+                          printf("\n%s",stBlock.stSentence[i]->szSentence[j]+20);
+                          y[k] = atof(stBlock.stSentence[i]->szSentence[j]+20);
+                      }
+                      else if (!strncmp(stBlock.stSentence[i]->szSentence[j],"=rx-bits-per-second",19))
+                        z[k] = atof(stBlock.stSentence[i]->szSentence[j]+20);
+                  }
+             }
+             clearSentence(&stSentence);
+        }
         sleep(1);
         x[k] = k;
     //     y[k] = 60 + rand()%40;
