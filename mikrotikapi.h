@@ -1,0 +1,4 @@
+#ifndef MIKROTIKAPI_H
+#define MIKROTIKAPI_H
+
+#endif // MIKROTIKAPI_H
