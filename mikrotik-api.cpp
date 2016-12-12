@@ -107,8 +107,6 @@ void apiDisconnect(int fdSock)
     close(fdSock);
 }
 
-
-
 /********************************************************************
  * Login to the API
  * 1 is returned on successful login

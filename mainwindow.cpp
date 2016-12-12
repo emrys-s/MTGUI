@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
  //   std::string szIPaddr = "94.45.71.39";
 //    char *szIPaddr = (char*)"94.45.71.39";
-    char szIPaddr[] = {'9','4','.','4','5','.','7','1','.','3','9','\0','\0'};
+    char szIPaddr[] = {'9','4','.','4','5','.','7','1','.','3','9','\0'};
     int iPort=8728;
     char *szUsername = (char*)"nazar";
 //    char szUsername[] = {'n','a','z','a','r','2','\0'};

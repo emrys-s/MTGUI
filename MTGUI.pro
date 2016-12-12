@@ -18,13 +18,17 @@ SOURCES += main.cpp\
     md5.c \
     configuration.cpp \
     mikrotik-api.cpp \
-    database.cpp
+    database.cpp \
+    mikrotikapitypes.cpp \
+    mikrotikapi.cpp
 
 HEADERS  += mainwindow.h \
     qcustomplot.h \
     md5.h \
     mikrotik-api.h \
     configuration.h \
-    database.h
+    database.h \
+    mikrotikapitypes.h \
+    mikrotikapi.h
 
 FORMS    += mainwindow.ui
