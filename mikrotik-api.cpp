@@ -177,7 +177,6 @@ int login(int fdSock, char *username, char *password)
   //  DEBUG ? printSentence(&stWriteSentence) : 0;
     writeSentence(fdSock, &stWriteSentence);
 
-
     stReadSentence = readSentence(fdSock);
     //DEBUG ? printSentence (&stReadSentence) : 0;
 
@@ -192,7 +191,6 @@ int login(int fdSock, char *username, char *password)
         return 0;
     }
 }
-
 
 
 /********************************************************************
@@ -431,10 +429,6 @@ int readLen(int fdSock)
 
     return *iLen;
 }
-
-
-
-
 
 /********************************************************************
  * Read a word from the socket
@@ -702,7 +696,6 @@ void addWordToSentence(struct Sentence *stSentence, char *szWordToAdd)
     {
         stSentence->szSentence = (char**)realloc(stSentence->szSentence, iNewLength * sizeof stSentence->szSentence + 1);
     }
-
 
     // allocate mem for the full word string
     stSentence->szSentence[stSentence->iLength] = (char*)malloc(strlen(szWordToAdd) + 1);

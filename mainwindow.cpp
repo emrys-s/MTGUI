@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "configuration.h"
 #include <mikrotik-api.h>
-#include <unistd.h> //for sleep
+#include <unistd.h>
 #include<sys/types.h>
 #include<sys/socket.h>
 #include<netinet/in.h>
@@ -10,9 +10,9 @@
 #include<string.h>
 #include<stdlib.h>
 
-#define SECONDS 60
-//#define BANDWITH 10000
-#define BANDWITH 100
+#define SECONDS 5
+#define BANDWITH 10000
+//#define BANDWITH 100
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -25,10 +25,18 @@ MainWindow::MainWindow(QWidget *parent) :
 //In future we will use class to configure these parameters
 //    connectionData curConfData;
 
-    char *szIPaddr = (char*)"172.20.17.200";
+    char *szIPaddr = (char*)"94.45.71.39";
     int iPort=8728;
-    char *szUsername = (char*)"admin";
-    char *szPassword = (char*)"";
+//    char *szUsername = (char*)"nazar";
+    char szUsername[10] = {'n','a','z','a','r','2','\0'};
+
+    char szPassword[1] = {'\0'};
+//    char *szPassword = (char*)"ostware";
+//    char szPassword[10] = {'o','s','t','w','a','r','e','\0'};
+
+ //   char cWordInput[256];
+ //   strcpy(cWordInput,(char*)"/interface/monitor-traffic");
+//    (char*)"/interface/monitor-traffic";
     struct Sentence stSentence;
     struct Block stBlock;
     QVector<double> x(SECONDS+1), y(SECONDS+1), z(SECONDS+1);
@@ -41,18 +49,18 @@ MainWindow::MainWindow(QWidget *parent) :
          ::apiDisconnect(fdSock);
          printf("Invalid username or password.\n");
     }
-
+    else
     for (int k=0; k<=SECONDS; k++)
     {
 //        ::addWordToSentence(&stSentence, (char*)"/interface/monitor-traffic");
 //        ::addWordToSentence(&stSentence, (char*)"=once=");
 //        ::addWordToSentence(&stSentence, (char*)"=interface=ether1");
 //        ::addWordToSentence(&stSentence, (char*)"\0");
-               // write sentence to the API
+//               // write sentence to the API
 //        if (stSentence.iLength > 0)
 //        {
 //            writeSentence(fdSock, &stSentence);
-//            // receive and print response block from the API
+////            // receive and print response block from the API
 //            stBlock = readBlock(fdSock);
 
 //            for (int i = 0; i < stBlock.iLength; i++)
@@ -60,18 +68,24 @@ MainWindow::MainWindow(QWidget *parent) :
 //                 for (int j = 0; j < stBlock.stSentence[i]->iLength; j++)
 //                 {
 //                      if (!strncmp(stBlock.stSentence[i]->szSentence[j],"=tx-bits-per-second",19))
-//                        y[k] = atof(stBlock.stSentence[i]->szSentence[j]+20);
+//                      {
+//                          printf("\n%s",stBlock.stSentence[i]->szSentence[j]+20);
+//                          y[k] = atof(stBlock.stSentence[i]->szSentence[j]+20);
+//                      }
 //                      else if (!strncmp(stBlock.stSentence[i]->szSentence[j],"=rx-bits-per-second",19))
 //                        z[k] = atof(stBlock.stSentence[i]->szSentence[j]+20);
 //                  }
 //             }
 //             clearSentence(&stSentence);
-//         }
-
-//         sleep(1);
-         x[k] = k;
-         y[k] = 60 + rand()%40;
-         z[k] = 60 + rand()%40;
+//        }
+        sleep(1);
+        x[k] = k;
+    //     y[k] = 60 + rand()%40;
+    //     z[k] = 60 + rand()%40;
+    }
+    for (int k=0; k<=SECONDS; k++)
+    {
+        printf("\nx[]:%3d y[]:%3d z[]:%3d",x[k],y[k],z[k]);
     }
 
     ui->widget_1->addGraph();
